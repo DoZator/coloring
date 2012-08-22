@@ -3,7 +3,7 @@ require File.expand_path('../lib/coloring/version', __FILE__)
 
 Gem::Specification.new do |gem|
   gem.authors       = ["DoZator"]
-  gem.email         = ["dozator@me.com"]
+  gem.email         = ["oabogatenko@gmail.com"]
   gem.description   = %q{Adds methods for coloring and styling text for class String}
   gem.summary       = %q{Terminal text painter}
   gem.homepage      = ""
