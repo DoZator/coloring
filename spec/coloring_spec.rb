@@ -21,11 +21,15 @@ describe Coloring do
   describe "method with params" do
 
     it "should return value" do
-      @sample.paint(:green).should_not be_nil  
+      @sample.coloring(:green).should_not be_nil  
     end
 
-    it "should raise error if no color" do
-      expect { @sample.paint(:wrong_color) }.to raise_error
+    it "should return right class" do
+      @sample.red.class.should == String
+    end
+
+    it "should raise error if wrong parameter for method" do
+      expect { @sample.coloring(:red, :on_blue) }.to raise_error
     end
 
   end
