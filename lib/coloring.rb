@@ -48,6 +48,8 @@ module Coloring
     param
   end
 
+  protected :set_param
+
   # Output method
 
   def coloring ( params )
@@ -61,7 +63,17 @@ module Coloring
     "\033[#{all_params}m" + self + "\033[0m"
 
   end
+
+  # Class method
+
+  class << self  
   
+    def view_avaliable
+      SGRPARAMS.each { |key, value| puts "#{key}".coloring(value) + " > String.#{key}" }
+    end
+  
+  end
+
 end
 
 String.send(:include, Coloring)

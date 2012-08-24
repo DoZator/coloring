@@ -5,12 +5,16 @@ Extension for Ruby string class. Extension add methods for coloring text or back
 ### Features
 
 * String.color ( color: black, red, green, yelow, blue, magenta, cyan, white )
-* String.on_color( background colors same )
+* String.on\_color( background colors same )
 * String.bright
 * String.underline
 * String.blink
 * String.negative
 * String.hide
+
+Also avaliable class method to view all methods.
+
+    Coloring::view_avaliable
 
 ### Installation
 
