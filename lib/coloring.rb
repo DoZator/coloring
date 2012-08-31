@@ -34,6 +34,8 @@ module Coloring
     define_method( effect ) { self.coloring( value ) }
   end
 
+  protected
+
   # Set effect value from SGR Hash
 
   def set_param ( param )
@@ -46,13 +48,37 @@ module Coloring
       param = SGRPARAMS[param]
     end
     param
+
   end
 
-  protected :set_param
+  # Set support Hash input (support 256 colors)
+
+  def input_options ( params )
+
+    set = lambda { |e| e = e.instance_of?(Fixnum) ? e : self.set_param(e)-30 } 
+
+    options = []
+
+    if params.has_key?(:background)
+      background = set.call(params[:background])
+      options << 48 << 5 << background
+    end
+    if params.has_key?(:color)
+      color = set.call(params[:color])
+      options << 38 << 5 << color
+    end
+
+    options
+
+  end
+
+  public
 
   # Output method
 
   def coloring ( params )
+
+    params = self.input_options( params ) if params.instance_of?(Hash)
 
     if params.instance_of?(Array)
       all_params = params.map! { |elem| elem = self.set_param(elem).to_s }.join ";"
@@ -66,12 +92,50 @@ module Coloring
 
   # Class method
 
-  class << self  
-  
-    def view_avaliable
-      SGRPARAMS.each { |key, value| puts "#{key}".coloring(value) + " > String.#{key}" }
+  class << self
+
+    def gamma
+
+      puts "All base methods:".on_yellow + "\n\n"
+
+      SGRPARAMS.each {|key, value| puts "#{key}".coloring(value) + " method: #{key}"}
+
+      puts "\n"
+      puts "System colors for xterm-256color:".on_yellow + "\n\n"
+
+      0.upto(7) do |i|
+        print "\033[48;5;#{i}m #{i} \033[000m"
+      end
+
+      puts "\n"
+
+      8.upto(15) do |i|
+        print "\033[48;5;#{i}m #{i} \033[000m"
+      end
+
+      puts "\n\n"
+
+      0.upto(5) do |g|
+        0.upto(5) do |r|
+          0.upto(5) do |b|
+            color = 16 + r*36 + g*6 + b
+            print "\033[48;5;#{color}m #{color}"
+          end    
+          print "\033[0m "
+        end    
+        print "\n"
+      end    
+
+      puts "\n"
+      puts "Grayscale ramp:".on_yellow + "\n\n"
+
+      232.upto(255) do |i|
+        print "\033[48;5;#{i}m #{i} \033[000m"
+      end
+
+      puts "\n"
     end
-  
+
   end
 
 end

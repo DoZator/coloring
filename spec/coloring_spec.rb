@@ -8,10 +8,6 @@ describe Coloring do
  
   describe "all base methods" do
 
-    it "should return value" do
-      @sample.green.should_not be_nil 
-    end
-
     it "should return right class" do
       @sample.red.class.should == String
     end
@@ -28,20 +24,32 @@ describe Coloring do
 
   describe "method with params" do
 
-    it "should return value" do
-      @sample.coloring(:green).should_not be_nil  
-    end
-
-    it "should return right class" do
-      @sample.coloring(:green).class.should == String
+    it "should raise error if no arguments" do
+      expect { @sample.coloring }.to raise_error
     end
 
     it "should raise error if wrong parameter for method" do
       expect { @sample.coloring(:red, :on_blue) }.to raise_error
     end
 
-    it "should return right content" do
+    it "should return right class" do
+      @sample.coloring(:green).class.should == String
+    end
+
+    it "should return right content (input params: Symbol)" do
       @sample.coloring(:green).should eq("\e[32mHello, World!\e[0m")
+    end
+
+    it "should return right content (input params: String)" do
+      @sample.coloring("green").should eq("\e[32mHello, World!\e[0m")
+    end
+
+    it "should return right content (input params: Hash)" do
+      @sample.coloring(:color => :green).should eq("\e[38;5;2mHello, World!\e[0m")
+    end
+
+    it "should return right content (input params > 1: Hash)" do
+      @sample.coloring(:color => :green, :background => :red).should eq("\e[48;5;1;38;5;2mHello, World!\e[0m")
     end
 
   end

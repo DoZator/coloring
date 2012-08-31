@@ -1,6 +1,6 @@
 ## About
 
-Extension for Ruby string class. Extension add methods for coloring text or background in Terminal. Also add some text effects.
+Extension for Ruby string class. Extension add methods for coloring text or background in Terminal. Also add some text effects. Support 256 colors.
 
 ### Features
 
@@ -12,9 +12,9 @@ Extension for Ruby string class. Extension add methods for coloring text or back
 * String.negative
 * String.hide
 
-Also avaliable class method to view all methods.
+Also avaliable class CLI to view all methods and colors.
 
-    Coloring::view_avaliable
+    $ coloring
 
 ### Installation
 
@@ -36,23 +36,33 @@ Add line:
 
 	require 'coloring'
 
-For base colors:
+For base methods:
 
 	puts "Hello, World!".green
-	puts "Hello, World!".coloring(32)
+	puts "Hello, World!".underline
+
+For call coloring method:	
+			
 	puts "Hello, World!".coloring(:green)
 	puts "Hello, World!".coloring("green")
 	
 For more params:
 
-	puts "Hello,World!".green.underline
+	puts "Hello, World!".green.underline
 	puts "Hello, World".green.on_red.underline
 	puts "Hello, World!".coloring [:green, :on_red, :underline]
 	puts "Hello, World!".coloring ["green", "on_red", "underline"]
-	puts "Hello,World!".coloring [32, 41, 4]
-	puts "Hello,World!".coloring(32).on_red
-	puts "Hello,World!".coloring([:green, :underline]).on_red  
+	puts "Hello, World!".coloring(:green).on_red
+	puts "Hello, World!".coloring([:green, :underline]).on_red
 
+For 256 colors ( use CLI to show avaliable colors ):
+
+	puts "Hello, World!".coloring(:color => :green, :background = > :yellow)
+	puts "Hello, World!".coloring(:color => "green", :background => "yellow")
+	puts "Hello, World!".coloring(color: "green", background: "yellow")
+	puts "Hello, World!".coloring(color: 211, background: 35)  
+	puts "Hello, World!".coloring(color: 211).on_green
+	 
 ### Contributing
 
 1. Fork it
