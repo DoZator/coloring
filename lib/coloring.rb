@@ -31,14 +31,14 @@ module Coloring
   # Define base methods
 
   SGRPARAMS.each do |effect, value|
-    define_method( effect ) { self.coloring( value ) }
+    define_method(effect) { coloring(value) }
   end
 
   protected
 
   # Set effect value from SGR Hash
 
-  def set_param ( param )
+  def set_param(param)
 
     if param.instance_of?(Fixnum)
       param
@@ -47,28 +47,23 @@ module Coloring
     else
       param = SGRPARAMS[param]
     end
-    param
 
   end
 
   # Set support Hash input (support 256 colors)
 
-  def input_options ( params )
-
-    set = lambda { |e| e = e.instance_of?(Fixnum) ? e : self.set_param(e)-30 } 
+  def input_options(params)
 
     options = []
 
-    if params.has_key?(:background)
-      background = set.call(params[:background])
-      options << 48 << 5 << background
-    end
-    if params.has_key?(:color)
-      color = set.call(params[:color])
-      options << 38 << 5 << color
+    set = lambda do |value, key|
+      value = value.instance_of?(Fixnum) ? value : set_param(value)-30
+      options << key << 5 << value
     end
 
-    options
+    set.call(params[:background], 48) if params.has_key?(:background)
+
+    set.call(params[:color], 38) if params.has_key?(:color)
 
   end
 
@@ -76,14 +71,14 @@ module Coloring
 
   # Output method
 
-  def coloring ( params )
+  def coloring(params)
 
-    params = self.input_options( params ) if params.instance_of?(Hash)
+    params = input_options(params) if params.instance_of?(Hash)
 
     if params.instance_of?(Array)
-      all_params = params.map! { |elem| elem = self.set_param(elem).to_s }.join ";"
+      all_params = params.map! { |elem| set_param(elem).to_s }.join ";"
     else
-      all_params = self.set_param( params )
+      all_params = set_param(params)
     end
 
     "\033[#{all_params}m" + self + "\033[0m"
@@ -98,7 +93,7 @@ module Coloring
 
       puts "All base methods:".on_yellow + "\n\n"
 
-      SGRPARAMS.each {|key, value| puts "#{key}".coloring(value) + " method: #{key}"}
+      SGRPARAMS.each { |key,value| puts "#{key}".coloring(value) + " method: #{key}" }
 
       puts "\n"
       puts "System colors for xterm-256color:".on_yellow + "\n\n"
