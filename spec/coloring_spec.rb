@@ -8,9 +8,7 @@ describe Coloring do
  
   describe "all base methods" do
 
-    it "should return right class" do
-      @sample.red.class.should == String
-    end
+    it { @sample.red.should be_an_instance_of(String) }
 
     it "should return right content" do
       @sample.red.should eq("\e[31mHello, World!\e[0m")
@@ -32,9 +30,8 @@ describe Coloring do
       expect { @sample.coloring(:red, :on_blue) }.to raise_error
     end
 
-    it "should return right class" do
-      @sample.coloring(:green).class.should == String
-    end
+    it { @sample.coloring(:green).should be_an_instance_of(String) }
+
 
     it "should return right content (input params: Symbol)" do
       @sample.coloring(:green).should eq("\e[32mHello, World!\e[0m")
