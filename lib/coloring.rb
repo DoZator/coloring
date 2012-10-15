@@ -91,29 +91,22 @@ module Coloring
 
     def gamma
 
-      puts "All base methods:".on_yellow + "\n\n"
+      puts "\n# All base methods:\n".yellow
 
       SGRPARAMS.each { |key,value| puts "#{key}".coloring(value) + " method: #{key}" }
 
-      puts "\n"
-      puts "System colors for xterm-256color:".on_yellow + "\n\n"
+      puts "\n# System colors for xterm-256color:\n".yellow
 
-      0.upto(7) do |i|
+      0.upto(15) do |i|
         print "\033[48;5;#{i}m #{i} \033[000m"
-      end
-
-      puts "\n"
-
-      8.upto(15) do |i|
-        print "\033[48;5;#{i}m #{i} \033[000m"
-      end
+      end  
 
       puts "\n\n"
 
       0.upto(5) do |g|
         0.upto(5) do |r|
           0.upto(5) do |b|
-            color = 16 + r*36 + g*6 + b
+            color = 16 + r*36 + g + b*6
             print "\033[48;5;#{color}m #{color}"
           end    
           print "\033[0m "
@@ -121,14 +114,13 @@ module Coloring
         print "\n"
       end    
 
-      puts "\n"
-      puts "Grayscale ramp:".on_yellow + "\n\n"
+      puts "\n# Grayscale ramp:\n".yellow
 
       232.upto(255) do |i|
         print "\033[48;5;#{i}m #{i} \033[000m"
       end
 
-      puts "\n"
+      puts "\n\n"
     end
 
   end
